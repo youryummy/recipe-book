@@ -68,6 +68,7 @@ router.delete('/:idRecipeBook', function(req, res, next) {
   var idRecipeBook = req.params.idRecipeBook;
   var indexRecipeBook = recipesBooks.findIndex(r => r.idRecipeBook === idRecipeBook);
   
+  //test
   recipesBooks.splice(indexRecipeBook, 1); 
   res.sendStatus(200);
 });
