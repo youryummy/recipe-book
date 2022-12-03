@@ -5,6 +5,7 @@ const debug = require('debug')('recipes-books-service:accounts');
 const ACCOUNTS_SERVICE = process.env.ACCOUNTS_SERVICE || 'http://localhost:3333';
 const API_VERSION = 'api/v1';
 
+//ESTO HAY QUE QUITARLO
 const getRecipesBooksByAccount = async function(username) {
     try {
         const url = urlJoin(ACCOUNTS_SERVICE, API_VERSION, '/accounts', username);
