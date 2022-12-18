@@ -14,14 +14,25 @@ export function findByid(req, res) {
             res.status(404).send({message: 'Recipes Book with id ${id} does not exist'});
         }
     }).catch((err) => {
-        logger.error('Error while getting Recipes Book: ${err.message}');
+        logger.error('Error while getting the Recipes Book: ${err.message}');
         res.status(500).send({message: 'Unexpected error ocurred, please try again later'});
     });
 }
 
 export function updateRecipesBook(req, res) {
-    res.send({
-        message: 'This is the mockup controller for updateRecipesBook'
+    const id = req.params.id;
+    const body = req.body;
+
+    RecipesBook.update(id, body).then(result => {
+        if(result) {
+            res.status(204).send();
+        } else {
+            res.status(404).send({message: 'Recipes Book with id ${id} does not exist'});
+        }
+        res.json(result);
+    }).catch((err) => {
+        logger.error('Error while deleting the Recipes Book: ${err.message}');
+        res.status(500).send({message: 'Unexpectec error ocurred, please try again later'});
     });
 }
 
