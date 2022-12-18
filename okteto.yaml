@@ -1,0 +1,12 @@
+build:
+  recipesBook-service
+
+deploy:
+  - helm upgrade --install recipesBook-service chart
+    --set image.repository=${OKTETO_BUILD_RECIPESBOOK_SERVICE_IMAGE}
+
+dev:
+  contacts-service:
+    command: npm start
+    sync:
+      -.:/opt/app
