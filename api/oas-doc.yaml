@@ -1,0 +1,139 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: RecipesBooks
+  description: API of RecipesBooks microservice 
+
+paths:
+  /api/v1/recipesbooks:
+    get:
+      description: Returns all recipesbooks
+      operationId: getRecipesBook
+      responses:
+        200:
+          description: RecipesBook list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/recipesbook'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    post:
+      description: Creates a new recipesbook
+      operationId: addRecipesBook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/recipesbook'
+        description: RecipesBook to be created
+        required: true
+      responses:
+        201:
+          description: RecipesBook
+        default:
+            description: Unexpected error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/error'
+  /api/v1/recipesbooks/{id}:
+    get:
+      description: Returns a single recipesbook by its id
+      operationId: findByid
+      parameters:
+        - required: true
+          name: id
+          description: id of the recipesbook to fetch
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: RecipesBook found by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/recipesbook'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    put:
+      description: Update a recipesbook based on its id
+      operationId: updateRecipesBook
+      parameters:
+        - required: true
+          name: id
+          description: id of the recipesbook to update
+          in: path
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/recipesbook'
+        description: RecipesBook to be updated
+        required: true
+      responses:
+        '204':
+          description: RecipesBook updated
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    delete:
+      description: Deletes a single recipesbook based on its id
+      operationId: deleteRecipesBook
+      parameters:
+        - required: true
+          name: id
+          description: id of the recipesbook to delete
+          in: path
+          schema:
+            type: string
+      responses:
+        '204':
+          description: RecipesBook deleted
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+components:
+  schemas:
+    recipesbook:
+        type: object
+        required:
+          - id
+        properties:
+          id:
+            type: string
+          name:
+            type: string
+          summary:
+            type: string
+          recipeList:
+            type: array
+            items: {}
+    error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+      additionalProperties: true
