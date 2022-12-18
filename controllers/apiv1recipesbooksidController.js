@@ -11,4 +11,3 @@ export function updateRecipesBook(req, res) {
 export function deleteRecipesBook(req, res) {
     service.deleteRecipesBook(req, res);
 }
-

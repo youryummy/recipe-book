@@ -9,4 +9,3 @@ export function addRecipesBook(req, res) {
         message: 'This is the mockup controller for addRecipesBook'
     });
 }
-

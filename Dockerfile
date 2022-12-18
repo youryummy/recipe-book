@@ -2,20 +2,15 @@ FROM node:16.13.0-alpine3.14
 
 WORKDIR /opt/app
 
-COPY package.json .
-COPY package-lock.json .
+COPY . .
 
-RUN npm install
-
-COPY bin/ ./bin
-COPY public/ ./public
-COPY routes/ ./routes
-COPY services/ ./services
-COPY app.js .
+RUN npm install --only=prod
 
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 
-EXPOSE 3000
+ARG PORT=80
+ENV PORT $PORT
+EXPOSE $PORT
 
-CMD npm start
+CMD [ "node", "index.js" ]

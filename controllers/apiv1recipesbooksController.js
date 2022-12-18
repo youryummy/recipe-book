@@ -7,4 +7,3 @@ export function getRecipesBook(req, res) {
 export function addRecipesBook(req, res) {
     service.addRecipesBook(req, res);
 }
-
