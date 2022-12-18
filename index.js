@@ -1,30 +1,44 @@
+import mongoose from 'mongoose';
+import server from './server.js';
+import 'dotenv/config';
 
-import http from "http";
-import express from "express";
-import { initialize } from "@oas-tools/core";
+// Node environment
+const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'production';
 
+// Mongo connection variables
+const mongoPort = process.env.MONGO_PORT ?? 3000;
+const mongoHost = process.env.MONGO_HOST ?? 'localhost';
+const mongoDBName = process.env.MONGO_DBNAME ?? 'recipes-book-db';
+const mongoURL = process.env.MONGO_URL ? process.env.MONGO_URL : `mongodb://${mongoHost}:${mongoPort}/${mongoDBName}`;
 
-const serverPort = 3000;
-const app = express();
-app.use(express.json({limit: '50mb'}));
+const mongooseConnect = function () {
+  const db = mongoose.connection;
+  db.on("error", console.error.bind(console, "Connection error: "));
+  return mongoose.connect(mongoURL, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    autoIndex: true,
+  });
+};
 
-const config = {
-    middleware: {
-        security: {
-            auth: {
-            }
-        }
-    }
-}
+mongoose.set('strictQuery', false);
 
-
-initialize(app, config).then(() => {
-    http.createServer(app).listen(serverPort, () => {
-    console.log("\nApp running at http://localhost:" + serverPort);
-    console.log("________________________________________________________________");
-    if (config.middleware.swagger?.disable !== false) {
-        console.log('API docs (Swagger UI) available on http://localhost:' + serverPort + '/docs');
-        console.log("________________________________________________________________");
-    }
-    });
+mongooseConnect().then(() => {
+  server.deploy(env).catch(err => { console.log(err); });
 });
+
+// quit on ctrl-c when running docker in terminal
+process.on('SIGINT', function onSigint () {
+  console.log(`[${new Date().toISOString()}] Got SIGINT (aka ctrl-c in docker). Graceful shutdown`);
+  shutdown();
+});
+
+// quit properly on docker stop
+process.on('SIGTERM', function onSigterm () {
+  console.log(`[${new Date().toISOString()}] Got SIGTERM (docker container stop). Graceful shutdown`);
+  shutdown();
+});
+
+const shutdown = () => {
+  server.undeploy();
+};

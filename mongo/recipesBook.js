@@ -1,7 +1,7 @@
 import {Schema, model} from "mongoose";
 
 const recipesBookSchema = new Schema({
-  idRecipesBook: Schema.Types.ObjectId,
+  id: Schema.Types.ObjectId,
   idUser: String,
   name: String,
   summary: String,
