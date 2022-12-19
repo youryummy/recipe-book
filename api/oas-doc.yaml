@@ -126,7 +126,7 @@ components:
             type: string
           summary:
             type: string
-          recipeList:
+          recipesList:
             type: array
             items: {}
     error:
@@ -137,4 +137,3 @@ components:
         message:
           type: string
       additionalProperties: true
-      
