@@ -1,0 +1,10 @@
+global:
+  node_env: development
+
+recipesBook-service:
+  mongo_proto: mongodb+srv
+  mongo_host: cluster0.2n6tvhy.mongodb.net
+  mongo_user: YourYummy
+  mongo_pwd: KBGnT6WYuSEMFiJK
+  mongo_dbname: recipesBook-service
+  image: recipebook:latest

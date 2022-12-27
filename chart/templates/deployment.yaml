@@ -1,42 +1,62 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: recipesBook
   labels:
-    {{- include "recipesBook.labels" . | nindent 4 }}
-    app.kubernetes.io/component: recipesBook
+    app: youryummy-{{ .Chart.Name }}
+  name: youryummy-{{ .Chart.Name }}
+  namespace: {{ if .Values.global.namespaceOverride }}{{.Values.global.namespaceOverride}}{{ else }}youryummy{{ end }}
 spec:
-  replicas: {{ .Values.recipesBook.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: recipesBook
-      app.kubernetes.io/instance: {{ .Release.Name }}
+      app: youryummy-{{ .Chart.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: recipesBook
-        app.kubernetes.io/instance: {{ .Release.Name }}
+        app: youryummy-{{ .Chart.Name }}
     spec:
-      terminationGracePeriodSeconds: 0
       containers:
-        - name: recipesBook
-          image: {{ .Values.recipesBook.image }}
-          env:
-            - name: DATABASE_URL
-              value: {{ .Values.recipesBook.databaseUrl }}
+        - env:
+          - name: PORT
+            value: "80"
+          - name: MONGO_HOST
+            value: {{ (index .Values .Chart.Name).mongo_host | default .Values.mongo_host }}
+          - name: MONGO_PORT
+            value: "{{ (index .Values .Chart.Name).mongo_port | default .Values.mongo_port }}"
+          - name: MONGO_DBNAME
+            value: {{ (index .Values .Chart.Name).mongo_dbname | default .Values.mongo_dbname }}
+          - name: MONGO_USER
+            value: {{ (index .Values .Chart.Name).mongo_user | default .Values.mongo_user }}
+          - name: MONGO_PROTO
+            value: {{ (index .Values .Chart.Name).mongo_proto | default .Values.mongo_proto }}
+          {{- if (index .Values .Chart.Name).mongo_pwd}}
+          - name: MONGO_PWD
+            valueFrom:
+              secretKeyRef:
+                  name: youryummy-{{ .Chart.Name }}-secrets
+                  key: MONGO_PWD
+          {{- end}}
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                  name: youryummy-{{ .Chart.Name }}-secrets
+                  key: JWT_SECRET
+          - name: JWT_ISSUER
+            valueFrom:
+              secretKeyRef:
+                  name: youryummy-{{ .Chart.Name }}-secrets
+                  key: JWT_ISSUER
+
+          image: {{ (index .Values .Chart.Name).image | default .Values.image }}
+          imagePullPolicy: IfNotPresent
+          name: youryummy-{{ .Chart.Name }}
           ports:
-            - name: http
-              containerPort: 3000
+            - containerPort: 80
               protocol: TCP
-          readinessProbe:
-            initialDelaySeconds: 10
-            periodSeconds: 1
-            httpGet:
-              path: /
-              port: 3000
-          livenessProbe:
-            initialDelaySeconds: 10
-            periodSeconds: 1
-            httpGet:
-              path: /
-              port: 3000
+          resources:
+            requests:
+              memory: 300Mi
+            limits:
+              memory: 400Mi
+      securityContext: {}

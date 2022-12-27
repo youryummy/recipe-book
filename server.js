@@ -7,19 +7,8 @@ const deploy = async (env) => {
     const serverPort = process.env.PORT ?? 8080;
     const app = express();
 
-
-
-
-
-
-    ////////////////////FALTA APP.USE///////////////////////////
-
-
-
-
-
-
-
+    app.use(express.json());
+    
     // Feature toggles
     let config = {}
     if (env === "production") {
