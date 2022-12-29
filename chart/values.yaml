@@ -8,4 +8,4 @@ mongo_user: null
 mongo_pwd: null
 mongo_dbname: default-db
 dev_node_port: 30100
-image: recipebook
+image: recipebookservice
