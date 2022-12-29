@@ -9,7 +9,7 @@ deploy:
     --set ratings-service.mongo_pwd=${MONGO_PWD}
     --set ratings-service.mongo_user=${MONGO_USER}
     --set ratings-service.mongo_host=${MONGO_HOST}
-    --set ratings-service.mongo_port=${MONGO_PORT}
+    --set ratings-service.mongo_host=${MONGO_URL}
     --set ratings-service.mongo_proto=${MONGO_PROTO}
     --set ratings-service.mongo_dbname=${MONGO_DBNAME}
     --set ratings-service.image=${OKTETO_BUILD_RECIPEBOOK_SERVICE_IMAGE}
