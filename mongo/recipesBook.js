@@ -8,4 +8,4 @@ const recipesBookSchema = new Schema({
   recipeList: Array,
 });
 
-export default model('RecipesBook', recipesBookSchema, 'recipesBooks');
+export default model('RecipesBook', recipesBookSchema, 'recipesBook');

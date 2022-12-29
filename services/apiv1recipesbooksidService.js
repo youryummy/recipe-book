@@ -6,13 +6,13 @@ import _ from "lodash";
 
 export async function findByid(req, res) {
 
-    const id = req.params.id;
+    const _id = req.params.id;
 
-    RecipesBook.findByid(id).then(result => {
+    RecipesBook.findByid(_id).then(result => {
         if(result) {
             res.send(result);
         } else {
-            res.status(404).send({message: 'Recipes Book with id ${id} does not exist'});
+            res.status(404).send({message: 'Recipes Book with id ${_id} does not exist'});
         }
     }).catch((err) => {
         logger.error('Error while getting the Recipes Book: ${err.message}');
@@ -22,14 +22,14 @@ export async function findByid(req, res) {
 
 export function updateRecipesBook(req, res) {
 
-    const id = req.params.id;
+    const _id = req.params.id;
     const body = req.body;
 
-    RecipesBook.update(id, body).then(result => {
+    RecipesBook.update(_id, body).then(result => {
         if(result) {
             res.status(204).send();
         } else {
-            res.status(404).send({message: 'Recipes Book with id ${id} does not exist'});
+            res.status(404).send({message: 'Recipes Book with id ${_id} does not exist'});
         }
         res.json(result);
     }).catch((err) => {
@@ -40,13 +40,13 @@ export function updateRecipesBook(req, res) {
 
 export function deleteRecipesBook(req, res) {
     
-    const id = req.params.id;
+    const _id = req.params.id;
 
-    RecipesBook.delete(id).then(result => {
+    RecipesBook.delete(_id).then(result => {
         if(result) {
             res.status(204).send();
         } else {
-            res.status(404).send({message: 'Recipes Book with id ${id} does not exist'});
+            res.status(404).send({message: 'Recipes Book with id ${_id} does not exist'});
         }
         res.json(result);
     }).catch((err) => {

@@ -38,7 +38,7 @@ export function getByidUser(req, res) {
 export function addRecipesBook(req, res) {
     
     const body = req.body;
-    body.id = new Types.ObjectId();
+    body._id = new Types.ObjectId();
 
     RecipesBook.create(body).then(() => {
         res.status(201).send();
