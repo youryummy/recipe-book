@@ -37,16 +37,6 @@ spec:
                   name: youryummy-{{ .Chart.Name }}-secrets
                   key: MONGO_PWD
           {{- end}}
-          - name: JWT_SECRET
-            valueFrom:
-              secretKeyRef:
-                  name: youryummy-{{ .Chart.Name }}-secrets
-                  key: JWT_SECRET
-          - name: JWT_ISSUER
-            valueFrom:
-              secretKeyRef:
-                  name: youryummy-{{ .Chart.Name }}-secrets
-                  key: JWT_ISSUER
 
           image: {{ (index .Values .Chart.Name).image | default .Values.image }}
           imagePullPolicy: IfNotPresent
