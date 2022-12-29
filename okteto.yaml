@@ -3,7 +3,7 @@ build:
     context: .
 
 deploy:
-  - helm upgrade --install ratings-service k8s
+  - helm upgrade --install ratings-service chart
     --set global.node_env=${NODE_ENV}
     --set global.namespaceOverride=${NAMESPACE}
     --set ratings-service.mongo_pwd=${MONGO_PWD}
