@@ -9,7 +9,7 @@ spec:
   {{- if eq .Values.global.node_env "development" }}
   type: NodePort
   {{- else }}
-  clusterIP: {{ if eq .Values.global.node_env "production" }}10.152.0.24{{ else }}10.152.1.24{{ end }}
+  clusterIP: {{ if eq .Values.global.node_env "production" }}10.152.0.26{{ else }}10.152.1.26{{ end }}
   {{- end }}
   ports:
     - name: youryummy-{{ .Chart.Name }}
