@@ -17,7 +17,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/recipesbook'
+                  $ref: '#/components/schemas/recipesBook'
         default:
           description: Unexpected error
           content:
@@ -31,7 +31,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/recipesbook'
+              $ref: '#/components/schemas/recipesBook'
         description: RecipesBook to be created
         required: true
       responses:
@@ -60,7 +60,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/recipesbook'
+                $ref: '#/components/schemas/recipesBook'
         default:
           description: Unexpected error
           content:
@@ -81,7 +81,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/recipesbook'
+              $ref: '#/components/schemas/recipesBook'
         description: RecipesBook to be updated
         required: true
       responses:

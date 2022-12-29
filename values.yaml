@@ -6,5 +6,5 @@ recipesBook-service:
   mongo_host: cluster0.2n6tvhy.mongodb.net
   mongo_user: YourYummy
   mongo_pwd: KBGnT6WYuSEMFiJK
-  mongo_dbname: recipesBook-service
+  mongo_dbname: recipesBook
   image: recipebook:latest

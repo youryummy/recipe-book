@@ -4,7 +4,7 @@ import { Types } from 'mongoose';
 import _ from "lodash";
 
 
-export function findByid(req, res) {
+export async function findByid(req, res) {
 
     const id = req.params.id;
 

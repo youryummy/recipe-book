@@ -8,7 +8,7 @@ const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'production';
 // Mongo connection variables
 const mongoPort = process.env.MONGO_PORT ?? 27017;
 const mongoHost = process.env.MONGO_HOST ?? 'localhost';
-const mongoDBName = process.env.MONGO_DBNAME ?? 'recipesBook-service';
+const mongoDBName = process.env.MONGO_DBNAME ?? 'recipesBook';
 const mongoURL = process.env.MONGO_URL ? process.env.MONGO_URL : `mongodb://${mongoHost}:${mongoPort}/${mongoDBName}`;
 
 const mongooseConnect = function () {
