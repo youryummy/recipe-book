@@ -7,4 +7,4 @@ recipesbook-service:
   mongo_user: YourYummy
   mongo_pwd: KBGnT6WYuSEMFiJK
   mongo_dbname: recipesBook
-  image: recipebook:latest
+  image: recipebook
