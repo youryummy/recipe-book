@@ -1,9 +1,9 @@
 build:
-  ratings-service:
+  recipesBook-service:
     context: .
 
 deploy:
-  - helm upgrade --install ratings-service chart
+  - helm upgrade --install recipesBook-service chart
     --set global.node_env=${NODE_ENV}
     --set global.namespaceOverride=${NAMESPACE}
     --set ratings-service.mongo_pwd=${MONGO_PWD}
