@@ -13,4 +13,4 @@ deploy:
     --set recipesbook-service.mongo_port=${MONGO_PORT}
     --set recipesbook-service.mongo_proto=${MONGO_PROTO}
     --set recipesbook-service.mongo_dbname=${MONGO_DBNAME}
-    --set recipesbook-service.image=${OKTETO_BUILD_RECIPEBOOK_SERVICE_IMAGE}
+    --set recipesbook-service.image=${OKTETO_BUILD_RECIPESBOOK_SERVICE_IMAGE}
