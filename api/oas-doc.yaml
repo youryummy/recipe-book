@@ -8,6 +8,7 @@ paths:
   /api/v1/recipesbooks:
     get:
       description: Returns all recipesbooks
+      x-router-controller: recipesBookManager
       operationId: getRecipesBook
       responses:
         200:
@@ -26,6 +27,7 @@ paths:
                 $ref: '#/components/schemas/error'
     post:
       description: Creates a new recipesbook
+      x-router-controller: recipesBookManager
       operationId: addRecipesBook
       requestBody:
         content:
@@ -46,7 +48,8 @@ paths:
   /api/v1/recipesbooks/{id}:
     get:
       description: Returns a single recipesbook by its id
-      operationId: findByid
+      x-router-controller: recipesBookManager
+      operationId: findByRecipesBookId
       parameters:
         - required: true
           name: id
@@ -69,6 +72,7 @@ paths:
                 $ref: '#/components/schemas/error'
     put:
       description: Update a recipesbook based on its id
+      x-router-controller: recipesBookManager
       operationId: updateRecipesBook
       parameters:
         - required: true
@@ -95,6 +99,7 @@ paths:
                 $ref: '#/components/schemas/error'
     delete:
       description: Deletes a single recipesbook based on its id
+      x-router-controller: recipesBookManager
       operationId: deleteRecipesBook
       parameters:
         - required: true
@@ -112,7 +117,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
-
+  /api/v1/recipesbooks/findByUserId/{idUser}:
+    get:
+      description: Returns recipes books for user
+      x-router-controller: recipesBookManager
+      operationId: findByUserId
+      parameters:
+        - required: true
+          name: idUser
+          description: idUser of the recipes books to fetch
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: RecipesBook list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/recipesbook'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
 components:
   schemas:
     recipesbook:
