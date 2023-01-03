@@ -13,9 +13,10 @@ const deploy = async (env) => {
     let config = {}
     if (env === "production") {
         config.middleware = { 
-            validator: { requestValidation: false, responseValidation: false } // Done in gateway
+            validator: { requestValidation: true, responseValidation: true } // Done in gateway
         }
     }
+
 
     // Initialize OAS Tools
     use(OASSwagger, {path: "/docs"});
