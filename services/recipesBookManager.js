@@ -9,7 +9,7 @@ export async function findByRecipesBookId(req, res) {
     const _id = req.params.id;
 
     try {
-        const recipesBook = await RecipesBook.find({_id: _id});
+        const recipesBook = await RecipesBook.findOne({_id: _id});
 
         //FALTA QUE SE AÑADA LA INFORMACIÓN PARA CADA RECETA
 
@@ -36,7 +36,7 @@ export async function updateRecipesBook(req, res) {
             existingRecipesBook.idUser = idUser;
             existingRecipesBook.recipeList = recipeList;
           await existingRecipesBook.save();
-          return res.sendStatus(201);
+          return res.sendStatus(204);
         } else {
           res.sendStatus(404);
         }
@@ -52,7 +52,7 @@ export async function deleteRecipesBook(req, res) {
 
     try {
         await RecipesBook.deleteOne({ _id: _id });
-        res.sendStatus(200);
+        res.sendStatus(204);
       } catch (e) {
         res.status(400).send({ error: e.message });
       }
