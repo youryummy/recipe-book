@@ -9,7 +9,17 @@ const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'production';
 const mongoPort = process.env.MONGO_PORT ?? 27017;
 const mongoHost = process.env.MONGO_HOST ?? 'localhost';
 const mongoDBName = process.env.MONGO_DBNAME ?? 'recipesBook';
-const mongoURL = process.env.MONGO_URL ? process.env.MONGO_URL : `mongodb://${mongoHost}:${mongoPort}/${mongoDBName}`;
+const mongoProto = process.env.MONGO_PROTO ?? 'mongodb';
+const mongoUser = process.env.MONGO_USER;
+const mongoPwd = process.env.MONGO_PWD;
+
+const mongoURL = `${mongoProto}://` +
+  `${mongoUser ? mongoUser + ":" : ""}` +
+  `${mongoPwd ? mongoPwd + "@" : ""}` +
+  `${mongoHost}${mongoProto == "mongodb+srv" ? "" : ":" + mongoPort}` +
+  `/${mongoDBName}`;
+
+  console.log("Mongo URL: " + mongoURL);
 
 const mongooseConnect = function () {
   const db = mongoose.connection;
