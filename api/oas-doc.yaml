@@ -148,11 +148,7 @@ components:
   schemas:
     recipesbook:
         type: object
-        required:
-          - id
         properties:
-          id:
-            type: string
           name:
             type: string
           summary:
