@@ -9,16 +9,19 @@
   "scripts": {
     "prestart": "npm install --only=prod",
     "start": "node index.js",
-    "test": "jest"
+    "test": "mocha  --exit --recursive --timeout 5000 -r tests/setup.test.js tests/unit"
   },
   "dependencies": {
     "@oas-tools/core": "^3.0.0",
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^6.8.2"
   },
   "devDependencies": {
     "jest": "^29.3.1",
-    "supertest": "^6.3.3"
+    "supertest": "^6.3.3",
+    "mocha": "^2.4.5"
   }
 }
