@@ -1,49 +1,40 @@
 import RecipesBook from "../mongo/recipesBook.js";
 import {logger} from "@oas-tools/commons";
 import { Types } from 'mongoose';
-import _ from "lodash";
+import { CircuitBreaker } from "../circuitBreaker/circuitBreaker.js";
 
 
 export async function findByRecipesBookId(req, res) {
 
-    const _id = req.params.id;
+  const _id = req.params.id;
+  
+    CircuitBreaker.getBreaker(RecipesBook).fire("findById", _id).then(result => {
 
-    try {
-        const recipesBook = await RecipesBook.findOne({_id: _id});
+      if (result) {
+        res.send(result);
 
-        //FALTA QUE SE AÑADA LA INFORMACIÓN PARA CADA RECETA
-
-        res.send(recipesBook);
-      } catch (e) {
-        res.status(400).send({ error: e.message });
+      } else {
+        res.sendStatus(404);
       }
-
+    }).catch ((e) => {
+      res.sendStatus(500);
+    });
 }
 
 export async function updateRecipesBook(req, res) {
 
-    const { name, summary, idUser, recipeList } = req.body;
-
+    const body = req.body;
     const _id = req.params.id;
-
-    try {
     
-        var existingRecipesBook = await RecipesBook.findOne({_id: _id});
-    
-        if (existingRecipesBook != null) {
-            existingRecipesBook.name = name;
-            existingRecipesBook.summary = summary;
-            existingRecipesBook.idUser = idUser;
-            existingRecipesBook.recipeList = recipeList;
-          await existingRecipesBook.save();
-          return res.sendStatus(204);
-        } else {
-          res.sendStatus(404);
-        }
-      } catch (e) {
-        res.status(400).send({ error: e.message });
-      }
-
+        CircuitBreaker.getBreaker(RecipesBook).fire("findByIdAndUpdate", _id, body).then(result => {
+          if(result) {
+            res.sendStatus(201);
+          } else {
+            res.sendStatus(404);
+          }
+        }).catch ((e) => {
+          res.sendStatus(500);
+        })
 }
 
 export async function deleteRecipesBook(req, res) {
@@ -51,8 +42,9 @@ export async function deleteRecipesBook(req, res) {
     const _id = req.params.id;
 
     try {
-        await RecipesBook.deleteOne({ _id: _id });
-        res.sendStatus(204);
+      CircuitBreaker.getBreaker(RecipesBook).fire("delete", _id);
+      return res.sendStatus(201);
+
       } catch (e) {
         res.status(400).send({ error: e.message });
       }
@@ -62,43 +54,41 @@ export async function deleteRecipesBook(req, res) {
 export async function getRecipesBook(req, res) {
 
     try {
-        const recipesBooks = await RecipesBook.find({});
-        res.send(recipesBooks);
-      } catch (e) {
+        CircuitBreaker.getBreaker(RecipesBook);
+        return res.send(RecipesBooks);
+
+    } catch (e) {
         res.status(400).send({ error: e.message });
-      }
+    }
 }
 
 export async function findByUserId(req, res) {
+
     const idUser = req.params.idUser;
 
-    try {
-        const results = await RecipesBook.find({idUser: idUser});
-    
-        res.send(results);
+      try {
+        CircuitBreaker.getBreaker(RecipesBook).fire("find", idUser).then(result => {
+
+          if (result) {
+            res.send(result);
+
+          } else {
+            res.status(404);
+          }
+        })
+
       } catch (e) {
-        if (e.errors) {
-          res.status(400).send({ error: e.message });
-        } else {
           res.sendStatus(501);
         }
-      }
 }
 
 export async function addRecipesBook(req, res) {
 
-    const { name, summary, idUser, recipeList } = req.body;
-
-    const newRecipesBook = new RecipesBook({
-        name,
-        summary,
-        recipeList,
-        idUser,
-      });
+    const newRecipesBook = req.body;
 
       try {
-        await newRecipesBook.save();
-        return res.sendStatus(201);
+        CircuitBreaker.getBreaker(RecipesBook).fire("create", newRecipesBook);
+        return res.sendStatus(newRecipesBook);
       } catch (e) {
         res.status(400).send({ error: e.message });
       }
