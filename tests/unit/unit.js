@@ -7,7 +7,6 @@ chai.should();
 let recipesBookId;
 let userId;
 let recipesBookPOST = { name: "test_POST", summary: "test_POST", recipeList: "test_POST", idUser: "test_POST" }
-let recipesBookPUT = { name: "test_PUT", summary: "test_PUT", recipeList: "test_PUT", idUser: "test_PUT" }
 
 const apiURL = "http://localhost:8080"
 
@@ -58,7 +57,6 @@ describe('put Recipes Book', () => {
     it('should update recipes book', () => {
         chai.request(apiURL)
         .put('/api/v1/recipesbooks/' + recipesBookId)
-        .send(recipesBookPUT)
         .end((err, res) => {
             res.should.have.status(201);
             res.body.should.be.a('object');

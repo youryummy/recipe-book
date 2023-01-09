@@ -6,9 +6,9 @@ import { CircuitBreaker } from "../circuitBreaker/circuitBreaker.js";
 
 export async function findByRecipesBookId(req, res) {
 
-  const _id = req.params.id;
+  const idRecipesBook = req.params._id;
   
-    CircuitBreaker.getBreaker(RecipesBook).fire("findById", _id).then(result => {
+    CircuitBreaker.getBreaker(RecipesBook).fire("findById", {_id: idRecipesBook}).then(result => {
 
       if (result) {
         res.send(result);
@@ -24,9 +24,9 @@ export async function findByRecipesBookId(req, res) {
 export async function updateRecipesBook(req, res) {
 
     const body = req.body;
-    const _id = req.params.id;
+    const idRecipesBook = req.params._id;
     
-        CircuitBreaker.getBreaker(RecipesBook).fire("findByIdAndUpdate", _id, body).then(result => {
+        CircuitBreaker.getBreaker(RecipesBook).fire("findByIdAndUpdate", {_id: idRecipesBook}, body).then(result => {
           if(result) {
             res.sendStatus(201);
           } else {
@@ -39,10 +39,10 @@ export async function updateRecipesBook(req, res) {
 
 export async function deleteRecipesBook(req, res) {
     
-    const _id = req.params.id;
+  const idRecipesBook = req.params._id;
 
     try {
-      CircuitBreaker.getBreaker(RecipesBook).fire("delete", _id);
+      CircuitBreaker.getBreaker(RecipesBook).fire("delete", {_id: idRecipesBook});
       return res.sendStatus(201);
 
       } catch (e) {
@@ -64,10 +64,10 @@ export async function getRecipesBook(req, res) {
 
 export async function findByUserId(req, res) {
 
-    const idUser = req.params.idUser;
+    const username = req.params.idUser;
 
       try {
-        CircuitBreaker.getBreaker(RecipesBook).fire("find", idUser).then(result => {
+        CircuitBreaker.getBreaker(RecipesBook).fire("find", {idUser: username}).then(result => {
 
           if (result) {
             res.send(result);
