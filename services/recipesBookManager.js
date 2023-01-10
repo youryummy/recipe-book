@@ -53,13 +53,12 @@ export async function deleteRecipesBook(req, res) {
 
 export async function getRecipesBook(req, res) {
 
-    try {
-        CircuitBreaker.getBreaker(RecipesBook);
-        return res.send(RecipesBooks);
-
-    } catch (e) {
-        res.status(400).send({ error: e.message });
-    }
+  CircuitBreaker.getBreaker(RecipesBook).fire("find", {}).then((results) => {
+    res.send(results);
+    
+  }).catch((err) => {
+    res.sendStatus(500);
+  })
 }
 
 export async function findByUserId(req, res) {
