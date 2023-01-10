@@ -42,7 +42,7 @@ export async function deleteRecipesBook(req, res) {
   const idRecipesBook = req.params.id;
 
     try {
-      CircuitBreaker.getBreaker(RecipesBook).fire("delete", {_id: idRecipesBook});
+      CircuitBreaker.getBreaker(RecipesBook).fire("findByIdAndDelete", {_id: idRecipesBook});
       return res.sendStatus(201);
 
       } catch (err) {
@@ -85,7 +85,7 @@ export async function addRecipesBook(req, res) {
 
       try {
         CircuitBreaker.getBreaker(RecipesBook).fire("create", newRecipesBook);
-        return res.sendStatus(newRecipesBook);
+        return res.send(newRecipesBook);
       } catch (err) {
         res.status(400).send({ error: err.message });
       }
