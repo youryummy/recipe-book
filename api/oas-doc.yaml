@@ -38,7 +38,7 @@ paths:
         description: RecipesBook to be created
         required: true
       responses:
-        201:
+        200:
           description: RecipesBook
           content:
             application/json:
