@@ -9,9 +9,9 @@
   "scripts": {
     "prestart": "npm install --only=prod",
     "start": "node index.js",
-    "test": "mocha  --exit --recursive --timeout 5000 -r tests/setup.test.js tests/unit",
-    "test-integration": "mocha  --exit --recursive --timeout 5000 -r tests/setup.test.js tests/integration",
-    "test-components": "mocha  --exit --recursive --timeout 5000 -r tests/setup.test.js tests/components"
+    "test:components": "mocha --exit --recursive --timeout 5000 -r tests/setup.test.js tests/components",
+    "test:integration": "mocha --exit --recursive --timeout 7000 -r tests/setup.test.js tests/integration",
+    "test": "npm run test:components && npm run test:integration"
   },
   "dependencies": {
     "@oas-tools/core": "^3.0.0",
@@ -24,7 +24,8 @@
   },
   "devDependencies": {
     "jest": "^29.3.1",
-    "mocha": "^2.4.5",
+    "mocha": "^10.2.0",
+    "recachegoose": "^9.1.0",
     "supertest": "^6.3.3"
   }
 }

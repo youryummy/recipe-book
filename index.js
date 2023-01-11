@@ -22,6 +22,11 @@ const mongoURL = `${mongoProto}://` +
   console.log("Mongo URL: " + mongoURL);
 
 const mongooseConnect = function () {
+
+  recachegoose(mongoose, {
+    engine: 'memory'
+  });
+  
   const db = mongoose.connection;
   db.on("error", console.error.bind(console, "Connection error: "));
   return mongoose.connect(mongoURL, {

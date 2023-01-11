@@ -38,7 +38,7 @@ paths:
         description: RecipesBook to be created
         required: true
       responses:
-        201:
+        200:
           description: RecipesBook
           content:
             application/json:
@@ -109,6 +109,7 @@ paths:
       parameters:
         - required: true
           name: id
+          x-acl-binding: recipebookIds
           description: id of the recipesbook to delete
           in: path
           schema:
@@ -169,3 +170,9 @@ components:
         message:
           type: string
       additionalProperties: true
+  securitySchemes:
+  apikey:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
+    x-acl-config: { $ref: ./acl-config.yaml }

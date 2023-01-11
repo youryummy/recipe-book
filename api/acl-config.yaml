@@ -1,0 +1,16 @@
+user:
+  api/v1/recipesbooks/{id}:
+    "read:any": ["*"]
+    "update:own": ["*"]
+    "delete:own": ["*"]
+  api/v1/recipesbooks:
+    "read:any": ["*"]
+    "create:own": ["*"]
+admin:
+  api/v1/recipesbooks:
+    "read:any": ["*"]
+    "create:any": ["*"]
+  api/v1/recipesbooks/{id}:
+    "read:any": ["*"]
+    "update:any": ["*"]
+    "delete:any": ["*"]
