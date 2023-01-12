@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import server from './server.js';
 import 'dotenv/config';
+import recachegoose from "recachegoose";
 
 // Node environment
 const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'production';
