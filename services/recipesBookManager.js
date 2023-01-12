@@ -5,7 +5,7 @@ import { CircuitBreaker } from "../circuitBreaker/circuitBreaker.js";
 
 export async function findByRecipesBookId(req, res) {
 
-  const { page = 1, limit = 100, search } = _req.query;
+  const { page = 1, limit = 100, search } = req.query;
 
     try {
 
@@ -20,12 +20,7 @@ export async function findByRecipesBookId(req, res) {
             count = await RecipesBook.count().cache(10)
         }
 
-        res.send({
-            currentPage: parseInt(page, 10),
-            totalPages: Math.ceil(count / limit),
-            pageLimit: parseInt(limit, 10),
-            result
-        })
+        res.send(result)
 
     } catch(err) {
         logger.error(`Error while getting all recipes books: ${err.message}`);
@@ -81,7 +76,7 @@ export async function getRecipesBook(req, res) {
 
 export async function findByUserId(req, res) {
 
-  const { page = 1, limit = 100, search } = _req.query;
+  const { page = 1, limit = 100, search } = req.query;
 
     try {
 
@@ -96,12 +91,7 @@ export async function findByUserId(req, res) {
             count = await RecipesBook.count().cache(10)
         }
 
-        res.send({
-            currentPage: parseInt(page, 10),
-            totalPages: Math.ceil(count / limit),
-            pageLimit: parseInt(limit, 10),
-            result
-        })
+        res.send(result)
 
     } catch(err) {
         logger.error(`Error while getting all recipes books: ${err.message}`);
