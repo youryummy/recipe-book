@@ -4,28 +4,21 @@ import { Types } from 'mongoose';
 import { CircuitBreaker } from "../circuitBreaker/circuitBreaker.js";
 
 export async function findByRecipesBookId(req, res) {
+  const idRecipesBook = req.params.id;
 
-  const { page = 1, limit = 100, search } = req.query;
-
-    try {
-
-        let result;
-        let count;
-        
-        if (search !== undefined) {
-            result = await RecipesBook.find({_id: {$regex: search, $options: "i"}}).limit(Number(limit)).skip((page - 1) * limit).exec()
-            count = await RecipesBook.countDocuments({nombre: {$regex: search, $options: "i"}});
-        } else {
-            result = await RecipesBook.find().cache(10).limit(Number(limit)).skip((page - 1) * limit).exec();
-            count = await RecipesBook.count().cache(10)
-        }
-
-        res.send(result)
-
-    } catch(err) {
-        logger.error(`Error while getting all recipes books: ${err.message}`);
-        res.status(500).send({ message: "Unexpected error ocurred, please try again later" });
-    }
+  CircuitBreaker.getBreaker(RecipesBook)
+    .fire("findById", { _id: idRecipesBook })
+    .then((result) => {
+      if (result) {
+        res.send(result);
+      } else {
+        res.sendStatus(404);
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({ error: err.message });
+    });
+  
 }
 
 export async function updateRecipesBook(req, res) {
@@ -64,18 +57,6 @@ export async function deleteRecipesBook(req, res) {
 
 export async function getRecipesBook(req, res) {
 
-  CircuitBreaker.getBreaker(RecipesBook)
-    .fire("find", {})
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      res.status(500).send({ error: err.message });
-    });
-}
-
-export async function findByUserId(req, res) {
-
   const { page = 1, limit = 100, search } = req.query;
 
     try {
@@ -84,7 +65,7 @@ export async function findByUserId(req, res) {
         let count;
         
         if (search !== undefined) {
-            result = await RecipesBook.find({idUser: {$regex: search, $options: "i"}}).limit(Number(limit)).skip((page - 1) * limit).exec()
+            result = await RecipesBook.find({_id: {$regex: search, $options: "i"}}).limit(Number(limit)).skip((page - 1) * limit).exec()
             count = await RecipesBook.countDocuments({nombre: {$regex: search, $options: "i"}});
         } else {
             result = await RecipesBook.find().cache(10).limit(Number(limit)).skip((page - 1) * limit).exec();
@@ -97,7 +78,23 @@ export async function findByUserId(req, res) {
         logger.error(`Error while getting all recipes books: ${err.message}`);
         res.status(500).send({ message: "Unexpected error ocurred, please try again later" });
     }
+}
 
+export async function findByUserId(req, res) {
+  const username = req.params.idUser;
+
+  CircuitBreaker.getBreaker(RecipesBook)
+    .fire("find", { idUser: username })
+    .then((result) => {
+      if (result) {
+        res.send(result);
+      } else {
+        res.status(404);
+      }
+    })
+    .catch((err) => {
+      res.status(501).send({ error: err.message });
+    });
 }
 
 export async function addRecipesBook(req, res) {
