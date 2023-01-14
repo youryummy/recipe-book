@@ -11,8 +11,8 @@ on:
       - '**/*.md'
 
 jobs:
-  coverage:
-    name: Test and coverage
+  test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -26,8 +26,8 @@ jobs:
         run: docker run -d -p 27017:27017 --name mongo mongo:latest
       - name: Create env file
         run: echo "${{ secrets.RECIPESBOOK_TOKEN }}" > .env.test
-      - name: Run coverage
-        run: npm run cov
+      - name: Run tests
+        run: npm test
       - name: Coverage to Coveralls
         uses: coverallsapp/github-action@master
         with:
@@ -39,7 +39,7 @@ jobs:
     name: Release new version to GitHub
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push'}}
-    needs: [coverage]
+    needs: [test]
     steps:
       - uses: actions/checkout@v2
       - name: Conventional Changelog
