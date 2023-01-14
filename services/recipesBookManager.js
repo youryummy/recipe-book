@@ -2,6 +2,12 @@ import RecipesBook from "../mongo/recipesBook.js";
 import {logger} from "@oas-tools/commons";
 import { Types } from 'mongoose';
 import { CircuitBreaker } from "../circuitBreaker/circuitBreaker.js";
+import recachegoose from "recachegoose";
+import mongoose from "mongoose";
+
+recachegoose(mongoose, {
+  engine: 'memory'
+});
 
 export async function findByRecipesBookId(req, res) {
   const idRecipesBook = req.params.id;
