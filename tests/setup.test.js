@@ -1,5 +1,6 @@
 import { logger } from "@oas-tools/commons";
 import RecipesBook from "../mongo/recipesBook.js";
+import mongoose from "mongoose";
 
 logger.configure({ level: "off" });
 process.env.NODE_ENV = "test";
