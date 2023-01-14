@@ -11,20 +11,6 @@ on:
       - '**/*.md'
 
 jobs:
-  lint:
-    name: Lint the code
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16.x
-      - name: Install dependencies
-        run: npm ci
-      - name: Lint code
-        run: npm run lint
-  
   coverage:
     name: Test and coverage
     runs-on: ubuntu-latest
@@ -53,7 +39,7 @@ jobs:
     name: Release new version to GitHub
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push'}}
-    needs: [lint, coverage]
+    needs: [coverage]
     steps:
       - uses: actions/checkout@v2
       - name: Conventional Changelog
@@ -98,7 +84,7 @@ jobs:
         - name: Okteto Deploy
           uses: okteto/pipeline@latest
           with:
-            name: ingredients-service
+            name: recipesbook-service
             namespace: youryummy-maribelrb22
             variables: >-
               NODE_ENV=production,
