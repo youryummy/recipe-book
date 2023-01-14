@@ -15,7 +15,8 @@ describe('get Recipes Books', () => {
         chai.request(apiURL)
         .get('/api/v1/recipesbooks')
         .end((err, res) => {
-            res.body.should.be.a('object');
+            res.body.should.be.a('array');
+            done();
         })
     })
 })
@@ -34,6 +35,7 @@ describe('post Recipes Books', () => {
 
             recipesBookId = res.body._id;
             userId = res.body.idUser;
+            done();
         })
     })
 })
@@ -49,6 +51,7 @@ describe('get Recipes Book by Id', () => {
             res.body.should.have.property('recipeList').eql(recipesBookPOST.recipeList);
             res.body.should.have.property('idUser').eql(recipesBookPOST.idUser);
             res.body.should.have.property('_id').eql(recipesBookId);
+            done();
         })
     })
 })
@@ -60,6 +63,7 @@ describe('put Recipes Book', () => {
         .end((err, res) => {
             res.should.have.status(201);
             res.body.should.be.a('object');
+            done();
         })
     })
 })
@@ -70,6 +74,7 @@ describe('delete Recipes Book', () => {
         .delete('/api/v1/recipesbooks' + recipesBookId)
         .end((err, res) => {
             res.should.have.status(204);
+            done();
         })
     })
 })
@@ -85,6 +90,7 @@ describe('get Recipes Book by Id User', () => {
             res.body.should.have.property('recipeList').eql(recipesBookPOST.recipeList);
             res.body.should.have.property('idUser').eql(recipesBookPOST.idUser);
             res.body.should.have.property('_id').eql(recipesBookId);
+            done();
         })
     })
 })

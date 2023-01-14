@@ -103,7 +103,7 @@ export async function addRecipesBook(req, res) {
 
   CircuitBreaker.getBreaker(RecipesBook).fire("create", newRecipesBook).then((result) => {
       if (result) {
-        return res.send(newRecipesBook);
+        return res.send(result);
       } else {
         res.sendStatus(404);
       }
