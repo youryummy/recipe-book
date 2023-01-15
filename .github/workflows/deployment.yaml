@@ -94,4 +94,3 @@ jobs:
               MONGO_USER=YourYummy,
               MONGO_DBNAME=recipesBook,
               COOKIE_DOMAIN=cloud.okteto.net,
-              FIREBASE_BUCKET=your-yummy.appspot.com,
