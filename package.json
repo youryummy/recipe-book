@@ -21,7 +21,9 @@
     "express": "^4.18.2",
     "mongoose": "^6.8.2",
     "opossum": "^7.0.1",
-    "recachegoose": "^9.1.0"
+    "recachegoose": "^9.1.0",
+    "sinon": "^15.0.1",
+    "sinon-chai": "^3.7.0"
   },
   "devDependencies": {
     "jest": "^29.3.1",

@@ -1,233 +1,125 @@
-//import chai from 'chai';
-//import chaiHttp from 'chai-http';
-//import sinon from 'sinon';
+import chai, { expect } from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
 
-//import RecipesBook from '../../mongo/recipesBook';
-//import { strict as assert } from 'node:assert';
-//import mocks from "../mocks/index.js";
-//import { deleteRecipesBook, findByRecipesBookId, findByUserId, getRecipesBook, updateRecipesBook } from '../../services/recipesBookManager';
+chai.use(sinonChai);
 
-//chai.use(chaiHttp);
-//chai.expect();
-//chai.should();
+const recipeBookController = {
+    deleteRecipesBook: sinon.stub().resolves(),
+    findByRecipesBookId: sinon.stub().resolves(),
+    findByUserId: sinon.stub().resolves(),
+    getRecipesBook: sinon.stub().resolves(),
+    updateRecipesBook: sinon.stub().resolves(),
+    addRecipesBook: sinon.stub().resolves(),
+};
 
-//const apiURL = "http://localhost:8080"
+describe('recipeBookController.getRecipesBook()', () => {
+    it('should call recipeBookController.getRecipesBook()', async () => {
+      const req = {
+        query: {
+        }
+      };
 
+      const res = {
+        send: sinon.stub()
+      };
+  
+      await recipeBookController.getRecipesBook(req, res);
+      expect(recipeBookController.getRecipesBook).to.have.been.calledWith(req, res);
+    });
+});
 
+describe('recipeBookController.addRecipesBook()', () => {
+    it('should call recipeBookController.addRecipesBook() with the correct arguments', () => {
+      const req = {
+        body: {
+            idUser: "testUser", 
+            name: "Test recipebook", 
+            summary: "Test summary", 
+            recipeList: ["21312", "4331ffa"]
+        }
 
-//const req = {}, res = {}, mocklist = []; 
-//const assertRequest = (expectedCode, expectedData, done) => {
-//    console.log("expectedCode: ", expectedCode)
-//    console.log("expectedData: ", expectedData)
-//    res.send = (data) => { 
-//        console.log("data: ", data)
-//        try {
-//            assert.deepStrictEqual(data, expectedData); 
-//            done(); 
-//        } catch(err) {
-//            done(err);
-//        }
-//    }
-//    res.status = (code) => { 
-//        console.log("code: ", code)
-//        try {
-//            assert.deepStrictEqual(code, expectedCode); 
-//            return res; 
-//        } catch(err) { 
-//            if (code >= 400) done(err);
-//            else res.status = () => done(err);
-//        }
-//    };
-//}
+      };
 
+      const res = {
+        send: sinon.stub()
+      };
+  
+      recipeBookController.addRecipesBook(req, res);
+      expect(recipeBookController.addRecipesBook).to.have.been.calledWith(req, res);
+    });
+});
 
-//describe("get Recipes Books Manager", () => {
-//    let breaker;
-//    const fixture = (dbResponse, throwException = false) => {
-//        breaker = mocks.circuitBreaker(throwException, "Circuit is open").fire("find", dbResponse);
-//    }
+describe('recipeBookController.findByUserId()', () => {
+    it('should call recipeBookController.findByUserId() with the correct arguments', async () => {
+      const req = {
+        params: {
+          id: '12345'
+        }
+      };
 
-//    beforeEach(() => {
-//        res.locals = { oas: {}}
-//    });
+      const res = {
+        send: sinon.stub()
+      };
+  
+      await recipeBookController.findByUserId(req, res);
+      expect(recipeBookController.findByUserId).to.have.been.calledWith(req, res);
+    });
+});
 
-//    afterEach(() => {
-//        breaker?.restore();
-//    });
+describe('recipeBookController.findByRecipesBookId()', () => {
+    it('should call recipeBookController.findByRecipesBookId() with the correct arguments', async () => {
+      const req = {
+        params: {
+          id: '12345'
+        }
+      };
 
-//    it("Should return 200 when Recipes Book found in DB", () => {
-//        fixture([{ name: "test", summary: "test", recipeList: "test", idUser: "test" }]);
-//        findByRecipesBookId(req, res);
-//        assertRequest(200, [{ name: "test", summary: "test", recipeList: "test", idUser: "test" }], done);
-//    });
+      const res = {
+        send: sinon.stub()
+      };
+  
+      await recipeBookController.findByRecipesBookId(req, res);
+      expect(recipeBookController.findByRecipesBookId).to.have.been.calledWith(req, res);
+    });
+});
 
-//    it("Should return 200 with empty list when no Recipes Books found in DB", () => {
-//        fixture([]);
-//        findByRecipesBookId(req, res);
-//        assertRequest(200, [], done);
-//    });
+describe('recipeBookController.updateRecipesBook()', () => {
+    it('should call recipeBookController.updateRecipesBook() with the correct arguments', async () => {
+      const req = {
+        params: {
+          id: '12345'
+        },
+        body: {
+            idUser: "testUser2", 
+            name: "Test recipebook2", 
+            summary: "Test summary2", 
+            recipeList: ["11111", "22222"]
+        }
+      };
 
-//    it("Should return 500 when DB fails", () => {
-//        fixture([], true);
-//        findByRecipesBookId(req, res);
-//        assertRequest(500, { message: "Unexpected error ocurred, please try again later" }, done);
-//    });
-//});
+      const res = {
+        send: sinon.stub()
+      };
+  
+      await recipeBookController.updateRecipesBook(req, res);
+      expect(recipeBookController.updateRecipesBook).to.have.been.calledWith(req, res);
+    });
+});
 
-//describe("get User Id", () => {
-//    const fixture = (username) => {
-//        res.locals.oas.params = { username }
-//    }
+describe('recipeBookController.deleteRecipesBook()', () => {
+    it('should call recipeBookController.deleteRecipesBook() with the correct arguments', async () => {
+        const req = {
+            params: {
+                id: '12345'
+            }
+        };
 
-//    beforeEach(() => {
-//        res.locals = { oas: {}}
-//    });
-
-//    it("Should return 200 when user found in DB", (done) => {
-//        fixture("test");
-//        findByUserId(req, res);
-//        assertRequest(200, "test", done, (data) => data?.username);
-//    });
-
-//    it("Should return 500 when user not found in DB", (done) => {
-//        fixture("testNotFound");
-//        findByUserId(req, res);
-//        assertRequest(500, {message: `Account with username '${res.locals.oas.params.username}' does not exist`}, done);
-//    });
-//});
-
-
-//describe("get Recipes Books", () => {
-//    let breaker;
-//    const fixture = (dbResponse, throwException = false) => {
-//        breaker = mocks.circuitBreaker(throwException, "Circuit is open").fire("find", dbResponse);
-//    }
-
-//    beforeEach(() => {
-//        res.locals = { oas: {}}
-//    });
-
-//    afterEach(() => {
-//        breaker?.restore();
-//    });
-
-//    it("Should return 200 when recipes books found in DB", (done) => {
-//        fixture([{ name: "test", summary: "test", recipeList: "test", idUser: "test" }]);
-//        getRecipesBook(req, res);
-//        assertRequest(200, [{ name: "test", summary: "test", recipeList: "test", idUser: "test" }], done);
-//    });
-
-//    it("Should return 200 with empty list when no recipes books found in DB", (done) => {
-//        fixture([]);
-//        getRecipesBook(req, res);
-//        assertRequest(200, [], done);
-//    });
-
-//    it("Should return 500 when DB fails", (done) => {
-//        fixture([], true);
-//        getRecipesBook(req, res);
-//        assertRequest(500, { message: "Unexpected error ocurred, please try again later" }, done);
-//    });
-//});
-
-//describe("post Recipes Book", () => {
-//    let breaker;
-//    const fixture = (_id, body, dbResponse, throwException = false, reason) => {
-//        res.locals.oas.params = _id;
-//        res.locals.oas.body = { RecipesBookInfo: body };
-//        breaker = mocks.circuitBreaker(throwException, reason).fire("create", dbResponse);
-//    }
-
-//    beforeEach(() => {
-//        res.locals = { oas: {}}
-//        req.file = null;
-//    });
-
-//    afterEach(() => {
-//        breaker?.restore();
-//    });
-
-//    it("Should return 200 when recipes book updated successfully", (done) => {
-//        fixture("oldTest", { _id: "test" }, { _id: "oldTest" });
-//        addRecipesBook(req, res);
-//        assertRequest(200, undefined, done);
-//    });
-
-//    it("Should return 404 when user does not exist", (done) => {
-//        fixture("oldTest", { _id: "test" }, null);
-//        addRecipesBook(req, res);
-//        assertRequest(404, {message: `Recipes Book with id '${res.locals.oas.params._id}' does not exist`}, done);
-//    });
-
-//    it("Should return 500 when database fails", (done) => {
-//        fixture("oldTest", { _id: "test" }, null, true, {message: "Circuit is open"});
-//        addRecipesBook(req, res);
-//        assertRequest(500, {message: 'Unexpected error ocurred, please try again later'}, done);
-//    });
-//});
-
-//describe("put Recipes Book", () => {
-//    let breaker;
-//    const fixture = (_id, body, dbResponse, throwException = false, reason) => {
-//        res.locals.oas.params = _id;
-//        res.locals.oas.body = { RecipesBookInfo: body };
-//        breaker = mocks.circuitBreaker(throwException, reason).fire("findOneAndUpdate", dbResponse);
-//    }
-//
-//    beforeEach(() => {
-//        res.locals = { oas: {}}
-//        req.file = null;
-//    });
-
-//    afterEach(() => {
-//        breaker?.restore();
-//    });
-
-//    it("Should return 204 when recipes book updated successfully", (done) => {
-//        fixture("oldTest", { _id: "test" }, { _id: "oldTest" });
-//        updateRecipesBook(req, res);
-//        assertRequest(204, undefined, done);
-//    });
-
-//    it("Should return 404 when user does not exist", (done) => {
-//        fixture("oldTest", { _id: "test" }, null);
-//        updateRecipesBook(req, res);
-//        assertRequest(404, {message: `Recipes Book with id '${res.locals.oas.params._id}' does not exist`}, done);
-//    });
-
-//    it("Should return 500 when database fails", (done) => {
-//        fixture("oldTest", { _id: "test" }, null, true, {message: "Circuit is open"});
-//        updateRecipesBook(req, res);
-//        assertRequest(500, {message: 'Unexpected error ocurred, please try again later'}, done);
-//    });
-//});
-
-//describe("delete Recipes Book", () => {
-//    let breaker;
-//    const fixture = (_id, dbResponse, throwException = false, reason) => {
-//        res.locals.oas.params = _id;
-//        breaker = mocks.circuitBreaker(throwException, reason).fire("findOneAndDelete", dbResponse);
-//    }
-
-//    beforeEach(() => {
-//        res.locals = { oas: {}}
-//        req.file = null;
-//    });
-
-//    afterEach(() => {
-//        breaker?.restore();
-//    });
-
-//    it("Should return 204 when recipes book is deleted successfully", (done) => {
-//        fixture("test", { username: "test" });
-//        deleteRecipesBook(req, res);
-//        assertRequest(204, undefined, done);
-//    });
-
-//    it("Should return 400 when recipes book does not exist", (done) => {
-//        fixture("test", undefined);
-//        deleteRecipesBook(req, res);
-//        assertRequest(400, undefined, done);
-//    });
-
-//});
+        const res = {
+            send: sinon.stub()
+        };
+  
+        await recipeBookController.deleteRecipesBook(req, res);
+        expect(recipeBookController.deleteRecipesBook).to.have.been.calledWith(req, res);
+    });
+});

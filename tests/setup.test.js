@@ -9,7 +9,7 @@ if (process.argv.includes("tests/integration")) {
 
     mongoose.set('strictQuery', false);
 
-  /*   await mongoose.connect("mongodb://localhost:27017/test", {connectTimeoutMS: 3000, serverSelectionTimeoutMS: 3000 }).then(async () => {
+     await mongoose.connect("mongodb://localhost:27017/test", {connectTimeoutMS: 3000, serverSelectionTimeoutMS: 3000 }).then(async () => {
      
         await RecipesBook.insertMany([
             {name: "test1", summary: "test1", recipeList: "test1", idUser: "test1"},
@@ -29,5 +29,5 @@ if (process.argv.includes("tests/integration")) {
     }).catch((err) => {
         console.log("Failed to connect to test db: ", err.message);
         process.exit(1);
-    }); */
+    }); 
 }
