@@ -58,6 +58,7 @@ paths:
       parameters:
         - required: true
           name: id
+          x-acl-binding: recipebookIds
           description: id of the recipesbook to fetch
           in: path
           schema:
@@ -82,6 +83,7 @@ paths:
       parameters:
         - required: true
           name: id
+          x-acl-binding: recipebookIds
           description: id of the recipesbook to update
           in: path
           schema:
@@ -131,6 +133,7 @@ paths:
       parameters:
         - required: true
           name: idUser
+          x-acl-binding: recipebookIds
           description: idUser of the recipes books to fetch
           in: path
           schema:
