@@ -1,6 +1,6 @@
 {
   "name": "recipesbook-service",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "API of RecipesBook microservice",
   "license": "UNLICENSED",
   "type": "module",
