@@ -22,16 +22,10 @@ jobs:
           node-version: 16.x
       - name: Install dependencies
         run: npm ci
-      - name: Run mongo docker
-        run: docker run -d -p 27017:27017 --name mongo mongo:latest
-      - name: Create env file
-        run: echo "${{ secrets.RECIPESBOOK_TOKEN }}" > .env.test
+      - name: Run docker compose
+        run: docker-compose -f "./.github/workflows/docker-compose.yaml" up -d --build
       - name: Run tests
         run: npm test
-      - name: Coverage to Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.RECIPESBOOK_TOKEN }}
         env:
           CI: true
 
