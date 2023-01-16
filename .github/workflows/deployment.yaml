@@ -61,7 +61,7 @@ jobs:
           destination_branch: "develop"
           pr_title: "Synchronize develop with master after release ${{ steps.changelog.outputs.tag }}"
           pr_body: ":crown:"
-          pr_assignee: "aniitadiazm"
+          pr_assignee: "deyan18"
           pr_label: "auto-pr"                              
           github_token: ${{ secrets.RECIPESBOOK_TOKEN }}
 
