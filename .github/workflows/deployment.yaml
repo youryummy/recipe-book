@@ -41,7 +41,7 @@ jobs:
         - name: Okteto Deploy
           uses: okteto/pipeline@latest
           with:
-            name: recipesbook-service
+            name: recipe-book
             namespace: youryummy-maribelrb22
             variables: >-
               NODE_ENV=production,
