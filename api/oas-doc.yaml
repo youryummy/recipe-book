@@ -52,6 +52,8 @@ paths:
                   $ref: '#/components/schemas/error'
   /api/v1/recipesbooks/{id}:
     get:
+      security:
+        - apikey: []
       description: Returns a single recipesbook by its id
       x-router-controller: recipesBookManager
       operationId: findByRecipesBookId
@@ -77,6 +79,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/error'
     put:
+      security:
+        - apikey: []
       description: Update a recipesbook based on its id
       x-router-controller: recipesBookManager
       operationId: updateRecipesBook
@@ -105,6 +109,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/error'
     delete:
+      security:
+        - apikey: []
       description: Deletes a single recipesbook based on its id
       x-router-controller: recipesBookManager
       operationId: deleteRecipesBook
@@ -127,13 +133,14 @@ paths:
                 $ref: '#/components/schemas/error'
   /api/v1/recipesbooks/findByUserId/{idUser}:
     get:
+      security:
+        - apikey: []
       description: Returns recipes books for user
       x-router-controller: recipesBookManager
       operationId: findByUserId
       parameters:
         - required: true
           name: idUser
-          x-acl-binding: recipebookIds
           description: idUser of the recipes books to fetch
           in: path
           schema:

@@ -4,74 +4,68 @@ import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 chai.should();
 
-let recipesBookId;
-let userId;
-let recipesBookPOST = { name: "test_POST", summary: "test_POST", recipeList: "test_POST", idUser: "test_POST" }
+let idRecipeBook;
+let idUser = "test_POST"
+let recipesBookPOST = { name: "test_POST", summary: "test_POST", recipeList: ["test_POST"], idUser: idUser }
 
 const apiURL = "http://localhost:8080"
 
-describe('get Recipes Books', () => {
-    it('should return all recipes books', () => {
+describe('GET Recipes Books', () => {
+    it('should GET all recipes books', (done) => {
         chai.request(apiURL)
         .get('/api/v1/recipesbooks')
         .end((err, res) => {
+            res.should.have.status(200);
             res.body.should.be.a('array');
+            chai.expect(res.body).to.have.length.greaterThan(0);
             done();
         })
     })
 })
 
-describe('post Recipes Books', () => {
-    it('should add an recipes book', () => {
+
+describe('POST Recipes Books', () => {
+    it('should POST a recipes book', (done) => {
         chai.request(apiURL)
         .post('/api/v1/recipesbooks')
         .send(recipesBookPOST)
         .end((err, res) => {
+            res.should.have.status(200);
             res.body.should.be.a('object');
             res.body.should.have.property('name');
             res.body.should.have.property('summary');
             res.body.should.have.property('recipeList');
             res.body.should.have.property('idUser');
 
-            recipesBookId = res.body._id;
-            userId = res.body.idUser;
             done();
+            idRecipeBook = res.body._id;
+            idUser = res.body.idUser;
         })
     })
 })
 
+
 describe('get Recipes Book by Id', () => {
-    it('should get recipes book by id', () => {
+    it('should get recipes book by id', (done) => {
         chai.request(apiURL)
-        .get('/api/v1/recipesbooks/' + recipesBookId)
+        .get('/api/v1/recipesbooks/' + idRecipeBook)
         .end((err, res) => {
+            res.should.have.status(200);
             res.body.should.be.a('object');
             res.body.should.have.property('name').eql(recipesBookPOST.name);
             res.body.should.have.property('summary').eql(recipesBookPOST.summary);
             res.body.should.have.property('recipeList').eql(recipesBookPOST.recipeList);
             res.body.should.have.property('idUser').eql(recipesBookPOST.idUser);
-            res.body.should.have.property('_id').eql(recipesBookId);
+            res.body.should.have.property('_id').eql(idRecipeBook);
             done();
         })
     })
 })
 
-describe('put Recipes Book', () => {
-    it('should update recipes book', () => {
+describe('PUT Recipes Book', () => {
+    it('should PUT recipes book', (done) => {
         chai.request(apiURL)
-        .put('/api/v1/recipesbooks/' + recipesBookId)
-        .end((err, res) => {
-            res.should.have.status(201);
-            res.body.should.be.a('object');
-            done();
-        })
-    })
-})
-
-describe('delete Recipes Book', () => {
-    it('should delete recipes book', () => {
-        chai.request(apiURL)
-        .delete('/api/v1/recipesbooks' + recipesBookId)
+        .put('/api/v1/recipesbooks/' + idRecipeBook)
         .end((err, res) => {
             res.should.have.status(204);
             done();
@@ -79,17 +73,27 @@ describe('delete Recipes Book', () => {
     })
 })
 
-describe('get Recipes Book by Id User', () => {
-    it('should get recipes book by id user', () => {
+
+describe('delete Recipes Book', () => {
+    it('should delete recipes book', (done) => {
         chai.request(apiURL)
-        .get('/api/v1/recipesbooks/' + userId)
+        .delete('/api/v1/recipesbooks/' + idRecipeBook)
         .end((err, res) => {
-            res.body.should.be.a('object');
-            res.body.should.have.property('name').eql(recipesBookPOST.name);
-            res.body.should.have.property('summary').eql(recipesBookPOST.summary);
-            res.body.should.have.property('recipeList').eql(recipesBookPOST.recipeList);
-            res.body.should.have.property('idUser').eql(recipesBookPOST.idUser);
-            res.body.should.have.property('_id').eql(recipesBookId);
+            res.should.have.status(204);
+            done();
+        })
+    })
+})
+
+
+describe('GET Recipes Book by Id User', () => {
+    it('should GET recipes book by id user', (done) => {
+        chai.request(apiURL)
+        .get('/api/v1/recipesbooks/findByUserId/' + idUser)
+        .end((err, res) => {
+            res.body.should.be.a('array');
+            chai.expect(res.body).to.have.length.greaterThan(0);
+            
             done();
         })
     })

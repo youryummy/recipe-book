@@ -1,9 +1,12 @@
 user:
   api/v1/recipesbooks/{id}:
-    "read:any": ["*"]
+    "read:own": ["*"]
     "update:own": ["*"]
     "delete:own": ["*"]
   api/v1/recipesbooks:
+    "read:own": ["*"]
+    "create:own": ["*"]
+  /api/v1/recipesbooks/findByUserId/{idUser}:
     "read:any": ["*"]
     "create:own": ["*"]
 admin:
@@ -14,3 +17,6 @@ admin:
     "read:any": ["*"]
     "update:any": ["*"]
     "delete:any": ["*"]
+  api/v1/recipesbooks/findByUserId/{idUser}:
+    "read:any": ["*"]
+    "create:any": ["*"]
