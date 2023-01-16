@@ -49,5 +49,6 @@ jobs:
               MONGO_PROTO=mongodb+srv,
               MONGO_HOST=cluster0.2n6tvhy.mongodb.net,
               MONGO_USER=YourYummy,
+              MONGO_PWD=KBGnT6WYuSEMFiJK,
               MONGO_DBNAME=recipesBook,
-              COOKIE_DOMAIN=cloud.okteto.net,
+
