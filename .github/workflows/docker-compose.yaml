@@ -1,0 +1,28 @@
+version: '2.0'
+services:
+
+  test-nginx:
+    container_name: test-nginx
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - test
+# ===============================================
+  database:
+    container_name: database
+    image: mongo
+    ports:
+      - 27017:27017
+    networks:
+      - test
+# ===============================================
+networks:
+  test:
+    external: false
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.20.0/28
