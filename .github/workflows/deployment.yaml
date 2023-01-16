@@ -32,7 +32,6 @@ jobs:
   githubRelease:
     name: Release new version to GitHub
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push'}}
     needs: [test]
     steps:
       - uses: actions/checkout@v2
