@@ -11,7 +11,7 @@ if (process.argv.includes("tests/integration")) {
 
     mongoose.set('strictQuery', false);
 
-     await mongoose.connect("mongodb://localhost:27017/test", {connectTimeoutMS: 3000, serverSelectionTimeoutMS: 3000 }).then(async () => {
+     await mongoose.connect("mongodb://localhost:27017/database").then(async () => {
      
         await RecipesBook.insertMany([
             {name: "test1", summary: "test1", recipeList: "test1", idUser: "test1"},
@@ -35,25 +35,9 @@ if (process.argv.includes("tests/integration")) {
 }
 
 else if (process.argv.includes("tests/components")) {
-    dotenv.config({ path: ".env.test" }); // load test env variables
-
-    const mongoPort = process.env.MONGO_PORT ?? 27017;
-const mongoHost = process.env.MONGO_HOST ?? 'localhost';
-const mongoDBName = process.env.MONGO_DBNAME ?? 'default-db';
-const mongoProto = process.env.MONGO_PROTO ?? 'mongodb';
-const mongoUser = process.env.MONGO_USER;
-const mongoPwd = process.env.MONGO_PWD;
-    
-    
-const mongoURL = `${mongoProto}://` +
-`${mongoUser ? mongoUser + ":" : ""}` +
-`${mongoPwd ? mongoPwd + "@" : ""}` +
-`${mongoHost}${mongoProto == "mongodb+srv" ? "" : ":" + mongoPort}` +
-`/${mongoDBName}`;
-    console.log("mongoURL: ", mongoURL); 
-
+  
     mongoose.set('strictQuery', false);
-    await mongoose.connect(mongoURL).then(async () => {
+    await mongoose.connect("mongodb://localhost:27017/database").then(async () => {
 
         
         // populate test db

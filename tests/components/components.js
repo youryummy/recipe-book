@@ -5,12 +5,17 @@ chai.use(chaiHttp);
 chai.should();
 
 let idRecipeBook;
-let idUser = "test_POST"
+let idUser = "test1"
 let recipesBookPOST = { name: "test_POST", summary: "test_POST", recipeList: ["test_POST"], idUser: idUser }
 
 const apiURL = "http://localhost:8080"
 
 describe('GET Recipes Books', () => {
+    before(() => {
+        // Wait for the service to start
+        let delay = new Promise(resolve => setTimeout(resolve, 3000))
+        return delay
+    });
     it('should GET all recipes books', (done) => {
         chai.request(apiURL)
         .get('/api/v1/recipesbooks')
@@ -39,7 +44,6 @@ describe('POST Recipes Books', () => {
 
             done();
             idRecipeBook = res.body._id;
-            idUser = res.body.idUser;
         })
     })
 })
