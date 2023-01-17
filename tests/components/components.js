@@ -66,12 +66,34 @@ describe('get Recipes Book by Id', () => {
     })
 })
 
+describe('get Recipes Book by Id fail', () => {
+    it('should fail to get recipes book by id', (done) => {
+        chai.request(apiURL)
+        .get('/api/v1/recipesbooks/m')
+        .end((err, res) => {
+            res.should.have.status(500);
+            done();
+        })
+    })
+})
+
 describe('PUT Recipes Book', () => {
     it('should PUT recipes book', (done) => {
         chai.request(apiURL)
         .put('/api/v1/recipesbooks/' + idRecipeBook)
         .end((err, res) => {
             res.should.have.status(204);
+            done();
+        })
+    })
+})
+
+describe('PUT Recipes Book fail', () => {
+    it('should fail to PUT recipes book', (done) => {
+        chai.request(apiURL)
+        .put('/api/v1/recipesbooks/m')
+        .end((err, res) => {
+            res.should.have.status(500);
             done();
         })
     })
@@ -84,6 +106,17 @@ describe('delete Recipes Book', () => {
         .delete('/api/v1/recipesbooks/' + idRecipeBook)
         .end((err, res) => {
             res.should.have.status(204);
+            done();
+        })
+    })
+})
+
+describe('delete Recipes Book fail', () => {
+    it('should fail to delete recipes book', (done) => {
+        chai.request(apiURL)
+        .delete('/api/v1/recipesbooks/m')
+        .end((err, res) => {
+            res.should.have.status(500);
             done();
         })
     })

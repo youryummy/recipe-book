@@ -50,14 +50,18 @@ export async function deleteRecipesBook(req, res) {
     
   const idRecipesBook = req.params.id;
 
-  try {
+  
     CircuitBreaker.getBreaker(RecipesBook).fire("findByIdAndDelete", {
       _id: idRecipesBook,
+    })
+    .then((result) => {
+      return res.sendStatus(204);
+    })
+    .catch((err) => {
+      res.status(500).send({ error: err.message });
     });
-    return res.sendStatus(204);
-  } catch (err) {
-    res.status(400).send({ error: err.message });
-  }
+    
+
 }
 
 
