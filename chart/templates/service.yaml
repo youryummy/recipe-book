@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: youryummy-{{ .Chart.Name }}
+  name: youryummy-{{ .Chart.Name }}
+  namespace: {{ if .Values.global.namespaceOverride }}{{.Values.global.namespaceOverride}}{{ else }}youryummy{{ end }}
+spec:
+  {{- if eq .Values.global.node_env "development" }}
+  type: NodePort
+  {{- else }}
+  clusterIP: {{ if eq .Values.global.node_env "production" }}10.152.0.26{{ else }}10.152.1.26{{ end }}
+  {{- end }}
+  ports:
+    - name: youryummy-{{ .Chart.Name }}
+      port: 80
+      protocol: TCP
+      targetPort: 80
+      {{- if eq .Values.global.node_env "development" }}
+      nodePort: {{ (index .Values .Chart.Name).dev_node_port | default .Values.dev_node_port }}
+      {{- end }}
+  selector:
+    app: youryummy-{{ .Chart.Name }}

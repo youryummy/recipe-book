@@ -1,0 +1,188 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: RecipesBooks
+  description: API of RecipesBooks microservice 
+
+paths:
+  /api/v1/recipesbooks:
+    get:
+      description: Returns all recipesbooks
+      x-router-controller: recipesBookManager
+      operationId: getRecipesBook
+      responses:
+        200:
+          description: RecipesBook list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/recipesbook'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    post:
+      description: Creates a new recipesbook
+      x-router-controller: recipesBookManager
+      operationId: addRecipesBook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              $ref: '#/components/schemas/recipesbook'
+        description: RecipesBook to be created
+        required: true
+      responses:
+        200:
+          description: RecipesBook
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/recipesbook'
+        default:
+            description: Unexpected error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/error'
+  /api/v1/recipesbooks/{id}:
+    get:
+      security:
+        - apikey: []
+      description: Returns a single recipesbook by its id
+      x-router-controller: recipesBookManager
+      operationId: findByRecipesBookId
+      parameters:
+        - required: true
+          name: id
+          x-acl-binding: recipebookIds
+          description: id of the recipesbook to fetch
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: RecipesBook found by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/recipesbook'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    put:
+      security:
+        - apikey: []
+      description: Update a recipesbook based on its id
+      x-router-controller: recipesBookManager
+      operationId: updateRecipesBook
+      parameters:
+        - required: true
+          name: id
+          x-acl-binding: recipebookIds
+          description: id of the recipesbook to update
+          in: path
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/recipesbook'
+        description: RecipesBook to be updated
+        required: true
+      responses:
+        '204':
+          description: RecipesBook updated
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    delete:
+      security:
+        - apikey: []
+      description: Deletes a single recipesbook based on its id
+      x-router-controller: recipesBookManager
+      operationId: deleteRecipesBook
+      parameters:
+        - required: true
+          name: id
+          x-acl-binding: recipebookIds
+          description: id of the recipesbook to delete
+          in: path
+          schema:
+            type: string
+      responses:
+        '204':
+          description: RecipesBook deleted
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /api/v1/recipesbooks/findByUserId/{idUser}:
+    get:
+      security:
+        - apikey: []
+      description: Returns recipes books for user
+      x-router-controller: recipesBookManager
+      operationId: findByUserId
+      parameters:
+        - required: true
+          name: idUser
+          description: idUser of the recipes books to fetch
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: RecipesBook list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/recipesbook'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+components:
+  schemas:
+    recipesbook:
+        type: object
+        properties:
+          name:
+            type: string
+          summary:
+            type: string
+          recipesList:
+            type: array
+            items: {}
+    error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+      additionalProperties: true
+  securitySchemes:
+    apikey:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      x-acl-config: { $ref: ./acl-config.yaml }

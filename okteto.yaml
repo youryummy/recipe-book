@@ -1,0 +1,16 @@
+build:
+  recipesbook-service:
+    context: .
+
+deploy:
+  - helm upgrade --install recipesbook-service chart
+    --set global.node_env=${NODE_ENV}
+    --set global.namespaceOverride=${NAMESPACE}
+    --set recipesbook-service.mongo_pwd=${MONGO_PWD}
+    --set recipesbook-service.mongo_user=${MONGO_USER}
+    --set recipesbook-service.mongo_host=${MONGO_HOST}
+    --set recipesbook-service.mongo_url=${MONGO_URL}
+    --set recipesbook-service.mongo_port=${MONGO_PORT}
+    --set recipesbook-service.mongo_proto=${MONGO_PROTO}
+    --set recipesbook-service.mongo_dbname=${MONGO_DBNAME}
+    --set recipesbook-service.image=${OKTETO_BUILD_RECIPESBOOK_SERVICE_IMAGE}

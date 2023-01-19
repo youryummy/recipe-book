@@ -29,45 +29,8 @@ jobs:
         env:
           CI: true
 
-  githubRelease:
-    name: Release new version to GitHub
-    runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push'}}
-    needs: [test]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Conventional Changelog
-        id: changelog
-        uses: TriPSs/conventional-changelog-action@v3
-        with:
-          github-token: ${{ secrets.RECIPESBOOK_TOKEN }}
-          output-file: 'CHANGELOG.md'
-          tag-prefix: 'v'
-          release-count: 0
-          fallback-version: '1.0.0'
-          skip-on-empty: 'false'
-      - name: Create Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.RECIPESBOOK_TOKEN }}
-        with:
-          tag_name: ${{ steps.changelog.outputs.tag }}
-          release_name: ${{ steps.changelog.outputs.tag }}
-          body: ${{ steps.changelog.outputs.clean_changelog }}
-      - name: Sync develop with main
-        uses: repo-sync/pull-request@v2
-        with:
-          source_branch: "main"
-          destination_branch: "develop"
-          pr_title: "Synchronize develop with master after release ${{ steps.changelog.outputs.tag }}"
-          pr_body: ":crown:"
-          pr_assignee: "aniitadiazm"
-          pr_label: "auto-pr"                              
-          github_token: ${{ secrets.RECIPESBOOK_TOKEN }}
-
   oktetoRelease:
       name: Deploy to Okteto
-      needs: githubRelease
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v2
@@ -78,7 +41,7 @@ jobs:
         - name: Okteto Deploy
           uses: okteto/pipeline@latest
           with:
-            name: recipesbook-service
+            name: recipe-book
             namespace: youryummy-maribelrb22
             variables: >-
               NODE_ENV=production,
@@ -86,5 +49,6 @@ jobs:
               MONGO_PROTO=mongodb+srv,
               MONGO_HOST=cluster0.2n6tvhy.mongodb.net,
               MONGO_USER=YourYummy,
+              MONGO_PWD=KBGnT6WYuSEMFiJK,
               MONGO_DBNAME=recipesBook,
-              COOKIE_DOMAIN=cloud.okteto.net,
+

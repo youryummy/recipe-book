@@ -1,16 +1,33 @@
 {
-  "name": "recipe-book-service",
-  "version": "0.0.0",
+  "name": "recipesbook-service",
+  "version": "1.0.1",
+  "description": "API of RecipesBook microservice",
+  "license": "UNLICENSED",
+  "type": "module",
   "private": true,
+  "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "prestart": "npm install --only=prod",
+    "start": "node index.js",
+    "test:components": "mocha --exit --recursive --timeout 5000 -r tests/setup.test.js tests/components",
+    "test:integration": "mocha --exit --recursive --timeout 7000 -r tests/setup.test.js tests/integration",
+    "test": "npm run test:components && npm run test:integration"
   },
   "dependencies": {
-    "axios": "^1.2.0",
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "morgan": "~1.9.1",
-    "url-join": "^4.0.1"
+    "@oas-tools/core": "^3.0.0",
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.8.2",
+    "opossum": "^7.0.1",
+    "recachegoose": "^9.1.0",
+    "sinon": "^15.0.1",
+    "sinon-chai": "^3.7.0"
+  },
+  "devDependencies": {
+    "jest": "^29.3.1",
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
   }
 }
